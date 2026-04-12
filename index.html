@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TinyWorld – Daycare Discovery</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ───────────── LANDING ───────────── -->
+<div id="app">
+
+  <section class="hero" id="landing">
+    <div class="hero-bg">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+
+    <nav class="nav">
+      <div class="logo">🌱 TinyWorld</div>
+      <div class="nav-links">
+        <a href="#" onclick="showModule('parent')">For Parents</a>
+        <a href="#" onclick="showModule('daycare')">For Daycares</a>
+        <a href="#" class="nav-cta" onclick="openAuthModal('login')">Login</a>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-badge">Trusted by 2,400+ families</div>
+      <h1>Find the <em>perfect</em><br>daycare for your<br>little one.</h1>
+      <p class="hero-sub">Discover, compare, and connect with verified daycares — all in one beautiful place.</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" onclick="showModule('parent')">🔍 Find a Daycare</button>
+        <button class="btn-secondary" onclick="showModule('daycare')">List My Daycare</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span>1,200+</span> Daycares</div>
+        <div class="stat-div"></div>
+        <div class="stat"><span>98%</span> Verified</div>
+        <div class="stat-div"></div>
+        <div class="stat"><span>4.9★</span> Avg Rating</div>
+      </div>
+    </div>
+
+    <div class="hero-cards">
+      <div class="float-card fc1">
+        <div class="fc-icon">🌟</div>
+        <div><strong>Little Stars Daycare</strong><br><small>4.9 · 2 spots left</small></div>
+      </div>
+      <div class="float-card fc2">
+        <div class="fc-icon">🎨</div>
+        <div><strong>Creative Cubs</strong><br><small>4.8 · Open enrollment</small></div>
+      </div>
+      <div class="float-card fc3">
+        <div class="fc-icon">🌈</div>
+        <div><strong>Rainbow Den</strong><br><small>4.7 · Waitlist available</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── PARENT MODULE ───────────── -->
+  <section class="module hidden" id="module-parent">
+    <div class="module-nav">
+      <button class="back-btn" onclick="showLanding()">← Back</button>
+      <div class="module-logo">🌱 TinyWorld <span class="module-tag">Parents</span></div>
+      <button class="btn-sm" onclick="openAuthModal('login')">Login / Sign Up</button>
+    </div>
+
+    <div class="parent-layout">
+      <!-- Search Sidebar -->
+      <aside class="search-sidebar">
+        <h2>Find Your Match</h2>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="City, ZIP, or name..." oninput="filterDaycares()" />
+        </div>
+
+        <div class="filter-group">
+          <label>Age Group</label>
+          <div class="tag-group" id="ageFilter">
+            <span class="tag active" data-val="all" onclick="toggleTag(this,'age')">All</span>
+            <span class="tag" data-val="infant" onclick="toggleTag(this,'age')">Infant</span>
+            <span class="tag" data-val="toddler" onclick="toggleTag(this,'age')">Toddler</span>
+            <span class="tag" data-val="preschool" onclick="toggleTag(this,'age')">Preschool</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Type</label>
+          <div class="tag-group" id="typeFilter">
+            <span class="tag active" data-val="all" onclick="toggleTag(this,'type')">All</span>
+            <span class="tag" data-val="center" onclick="toggleTag(this,'type')">Center</span>
+            <span class="tag" data-val="home" onclick="toggleTag(this,'type')">Home</span>
+            <span class="tag" data-val="montessori" onclick="toggleTag(this,'type')">Montessori</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Max Monthly Cost: <strong id="costLabel">$2000</strong></label>
+          <input type="range" id="costRange" min="500" max="3000" step="100" value="2000"
+            oninput="document.getElementById('costLabel').textContent='$'+this.value; filterDaycares()" />
+        </div>
+
+        <div class="filter-group">
+          <label>Min Rating</label>
+          <div class="tag-group">
+            <span class="tag active" data-val="0" onclick="setRating(this,0)">Any</span>
+            <span class="tag" data-val="4" onclick="setRating(this,4)">4+★</span>
+            <span class="tag" data-val="4.5" onclick="setRating(this,4.5)">4.5+★</span>
+          </div>
+        </div>
+
+        <button class="btn-primary full-w" onclick="filterDaycares()">Apply Filters</button>
+      </aside>
+
+      <!-- Daycare Listings -->
+      <main class="listings">
+        <div class="listings-header">
+          <h3 id="listingCount">Showing 6 daycares</h3>
+          <select id="sortSelect" onchange="filterDaycares()">
+            <option value="rating">Sort: Top Rated</option>
+            <option value="price">Sort: Lowest Price</option>
+            <option value="name">Sort: Name A–Z</option>
+          </select>
+        </div>
+        <div class="cards-grid" id="daycareCards"></div>
+      </main>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay hidden" id="detailModal">
+      <div class="modal detail-modal">
+        <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+        <div id="detailContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── DAYCARE MODULE ───────────── -->
+  <section class="module hidden" id="module-daycare">
+    <div class="module-nav dark">
+      <button class="back-btn light" onclick="showLanding()">← Back</button>
+      <div class="module-logo light">🌱 TinyWorld <span class="module-tag teal">Daycares</span></div>
+      <button class="btn-sm teal" onclick="openAuthModal('login')">Login / Sign Up</button>
+    </div>
+
+    <div class="daycare-hero">
+      <div class="dh-text">
+        <h2>Grow your enrollment.<br>Manage everything.</h2>
+        <p>Your all-in-one dashboard for listings, inquiries, and family connections.</p>
+        <button class="btn-primary teal-btn" onclick="showDaycareDashboard()">Open Dashboard</button>
+      </div>
+      <div class="dh-art">
+        <div class="dh-card">
+          <div class="dh-stat">🏠 My Daycare</div>
+          <div class="dh-nums">
+            <div><span class="big-num" id="enrollCount">24</span><br><small>Enrolled</small></div>
+            <div><span class="big-num" id="inquiryCount">7</span><br><small>New Inquiries</small></div>
+            <div><span class="big-num">4.9</span><br><small>Rating</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="daycareDashboard" class="hidden">
+      <div class="dash-tabs">
+        <button class="dash-tab active" onclick="switchTab(this,'tab-listings')">📋 Listings</button>
+        <button class="dash-tab" onclick="switchTab(this,'tab-inquiries')">💬 Inquiries</button>
+        <button class="dash-tab" onclick="switchTab(this,'tab-children')">👶 Children</button>
+        <button class="dash-tab" onclick="switchTab(this,'tab-profile')">⚙️ Profile</button>
+      </div>
+
+      <!-- LISTINGS TAB -->
+      <div class="tab-content" id="tab-listings">
+        <div class="tab-header">
+          <h3>My Listings</h3>
+          <button class="btn-primary sm" onclick="openListingForm()">+ Add Listing</button>
+        </div>
+        <table class="data-table" id="listingsTable">
+          <thead><tr><th>Name</th><th>Slots</th><th>Age</th><th>Cost/mo</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="listingsBody"></tbody>
+        </table>
+      </div>
+
+      <!-- INQUIRIES TAB -->
+      <div class="tab-content hidden" id="tab-inquiries">
+        <h3>Parent Inquiries</h3>
+        <div id="inquiriesList"></div>
+      </div>
+
+      <!-- CHILDREN TAB -->
+      <div class="tab-content hidden" id="tab-children">
+        <div class="tab-header">
+          <h3>Enrolled Children</h3>
+          <button class="btn-primary sm" onclick="openChildForm()">+ Add Child</button>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Age</th><th>Parent</th><th>Start Date</th><th>Status</th></tr></thead>
+          <tbody id="childrenBody"></tbody>
+        </table>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div class="tab-content hidden" id="tab-profile">
+        <h3>Daycare Profile</h3>
+        <form class="profile-form" onsubmit="saveProfile(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Daycare Name</label>
+              <input type="text" id="dcName" value="Little Stars Daycare" />
+            </div>
+            <div class="form-group">
+              <label>License Number</label>
+              <input type="text" id="dcLicense" value="DC-2024-1234" />
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" id="dcAddress" value="123 Maple St, Springfield" />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="dcPhone" value="(555) 123-4567" />
+            </div>
+            <div class="form-group full">
+              <label>Description</label>
+              <textarea id="dcDesc" rows="3">A nurturing environment where every child thrives through play, creativity, and love.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Capacity</label>
+              <input type="number" id="dcCapacity" value="30" />
+            </div>
+            <div class="form-group">
+              <label>Hours</label>
+              <input type="text" id="dcHours" value="7:00 AM – 6:00 PM" />
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Profile</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Listing Form Modal -->
+    <div class="modal-overlay hidden" id="listingModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('listingModal')">✕</button>
+        <h3>Add / Edit Listing</h3>
+        <form class="profile-form" onsubmit="saveListing(event)">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Program Name</label>
+              <input type="text" id="lName" placeholder="e.g. Infant Full-Day" required />
+            </div>
+            <div class="form-group">
+              <label>Age Group</label>
+              <select id="lAge">
+                <option>Infant (0-12m)</option>
+                <option>Toddler (1-3y)</option>
+                <option>Preschool (3-5y)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Available Slots</label>
+              <input type="number" id="lSlots" value="5" min="0" />
+            </div>
+            <div class="form-group">
+              <label>Monthly Cost (Rs )</label>
+              <input type="number" id="lCost" value="1200" />
+            </div>
+            <div class="form-group">
+              <label>Type</label>
+              <select id="lType">
+                <option>Center</option>
+                <option>Home</option>
+                <option>Montessori</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Listing</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Child Form Modal -->
+    <div class="modal-overlay hidden" id="childModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('childModal')">✕</button>
+        <h3>Add Child</h3>
+        <form class="profile-form" onsubmit="saveChild(event)">
+          <div class="form-grid">
+            <div class="form-group"><label>Child Name</label><input type="text" id="cName" required /></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="cDob" required /></div>
+            <div class="form-group"><label>Parent Name</label><input type="text" id="cParent" required /></div>
+            <div class="form-group"><label>Parent Email</label><input type="email" id="cEmail" required /></div>
+            <div class="form-group"><label>Start Date</label><input type="date" id="cStart" required /></div>
+            <div class="form-group"><label>Program</label>
+              <select id="cProgram"><option>Infant Full-Day</option><option>Toddler Half-Day</option><option>Preschool Full-Day</option></select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Enroll Child</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── AUTH MODAL ───────────── -->
+  <div class="modal-overlay hidden" id="authModal">
+    <div class="modal auth-modal">
+      <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="you@example.com" /></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPass" required placeholder="••••••••" /></div>
+        <div class="form-group">
+          <label>I am a</label>
+          <div class="radio-group">
+            <label><input type="radio" name="loginRole" value="parent" checked /> Parent</label>
+            <label><input type="radio" name="loginRole" value="daycare" /> Daycare Provider</label>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full-w">Login</button>
+      </form>
+
+      <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
+        <div class="form-group"><label>Full Name</label><input type="text" id="signupName" required placeholder="Jane Doe" /></div>
+        <div class="form-group"><label>Email</label><input type="email" id="signupEmail" required placeholder="you@example.com" /></div>
+        <div class="form-group"><label>Password</label><input type="password" id="signupPass" required placeholder="••••••••" /></div>
+        <div class="form-group">
+          <label>I am a</label>
+          <div class="radio-group">
+            <label><input type="radio" name="signupRole" value="parent" checked /> Parent</label>
+            <label><input type="radio" name="signupRole" value="daycare" /> Daycare Provider</label>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full-w">Create Account</button>
+      </form>
+
+      <div class="auth-footer">
+        <div class="db-notice">🗄️ Connected to PostgreSQL backend</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast hidden" id="toast"></div>
+
+</div>
+
+<script src="db.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
