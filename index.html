@@ -3,163 +3,293 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TinyWorld – Daycare Discovery</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>LittleSteps – Daycare Discovery</title>
+  <!-- <link rel="stylesheet" href="styles.css" /> -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            orange: { DEFAULT: '#FF7A2F', dark: '#E8651A' },
+            teal:   { DEFAULT: '#1ABBA8', dark: '#158F80' },
+            navy:   '#1A1A2E',
+            cream:  '#FFF8F0',
+            peach:  '#FFDED0',
+            muted:  '#6B7280',
+            border: '#E8E0D8',
+            ink:    '#1A1A2E',
+            coral:  { DEFAULT: '#FF7A2F', dark: '#E8651A' },
+          },
+          fontFamily: {
+            body:    ['DM Sans', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'Georgia', 'serif'],
+          },
+          boxShadow: {
+            'custom': '0 4px 24px rgba(15,31,61,0.10)',
+            'custom-lg': '0 12px 48px rgba(15,31,61,0.16)',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          },
+          animation: {
+            fadeIn: 'fadeIn 0.2s ease',
+            scaleIn: 'scaleIn 0.25s ease',
+            slideUp: 'slideUp 0.3s ease',
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+<body class="font-body bg-white text-ink min-h-screen flex flex-col antialiased">
 
-<!-- ───────────── LANDING ───────────── -->
-<div id="app">
+<div id="app" class="flex flex-col flex-grow w-full">
 
-  <section class="hero" id="landing">
-    <div class="hero-bg">
-      <div class="blob b1"></div>
-      <div class="blob b2"></div>
-      <div class="blob b3"></div>
+  <!-- ───────────── LANDING ───────────── -->
+  <section class="bg-white flex flex-col border-b border-border" id="landing">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute w-64 h-64 bg-orange/10 rounded-full blur-3xl -top-20 -left-20"></div>
+      <div class="absolute w-80 h-80 bg-teal/10 rounded-full blur-3xl top-40 right-10"></div>
     </div>
 
-    <nav class="nav">
-      <div class="logo">🌱 TinyWorld</div>
-      <div class="nav-links">
-        <a href="#" onclick="showModule('parent')">For Parents</a>
-        <a href="#" onclick="showModule('daycare')">For Daycares</a>
-        <a href="#" class="nav-cta" onclick="openAuthModal('login')">Login</a>
+    <nav class="relative z-10 flex items-center justify-between px-6 md:px-16 py-4 bg-white border-b border-border">
+      <div class="font-body text-xl font-bold text-navy flex items-center gap-2"><span class="text-2xl">👶🏻</span> LittleSteps</div>
+      <div class="flex gap-4 md:gap-6 items-center flex-wrap justify-end">
+        <a href="#" onclick="showLanding()" class="text-orange font-semibold text-sm transition-colors hover:text-orange">Home</a>
+        <a href="#" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden sm:block">About</a>
+        <a href="#" onclick="showModule('parent')" class="text-navy font-medium text-sm transition-colors hover:text-orange">Programs</a>
+        <a href="#" onclick="showModule('parent')" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden sm:block">Explore</a>
+        <a href="#" onclick="showContact()" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden sm:block">Contact</a>
+        <a href="#" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden md:block">FAQ</a>
+        <a href="#" onclick="openAuthModal('login')" class="text-navy font-medium text-sm transition-colors hover:text-orange">Login</a>
+        <a href="#" class="bg-orange text-white px-5 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors text-sm" onclick="openAuthModal('signup')">Register</a>
       </div>
     </nav>
 
-    <div class="hero-content">
-      <div class="hero-badge">Trusted by 2,400+ families</div>
-      <h1>Find the <em>perfect</em><br>daycare for your<br>little one.</h1>
-      <p class="hero-sub">Discover, compare, and connect with verified daycares — all in one beautiful place.</p>
-      <div class="hero-cta-group">
-        <button class="btn-primary" onclick="showModule('parent')">🔍 Find a Daycare</button>
-        <button class="btn-secondary" onclick="showModule('daycare')">List My Daycare</button>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center max-w-7xl mx-auto py-16 md:py-20 px-6 md:px-16">
+      <div class="flex flex-col">
+        <h1 class="font-body text-4xl md:text-5xl lg:text-[3.2rem] font-extrabold leading-tight text-navy mb-5">India's Most Trusted <em class="not-italic text-orange">Daycare Platform</em></h1>
+        <p class="text-base text-muted leading-relaxed max-w-md mb-8">Find verified, safe, and nurturing daycare centers near you. Track your child's activities, health, and development in real-time.</p>
+        <div class="flex gap-4 flex-wrap mb-9">
+          <button class="bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold transition-all hover:bg-orange-dark hover:-translate-y-px shadow-sm" onclick="showModule('parent')">Explore Daycares →</button>
+          <button class="bg-transparent text-navy border-2 border-navy px-6 py-3 rounded-lg font-body text-base font-semibold transition-all hover:bg-navy hover:text-white" onclick="openAuthModal('signup')">Register as Parent</button>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex">
+            <div class="w-9 h-9 rounded-full border-2 border-white -mr-2.5 bg-[#FFB84A]"></div>
+            <div class="w-9 h-9 rounded-full border-2 border-white -mr-2.5 bg-orange"></div>
+            <div class="w-9 h-9 rounded-full border-2 border-white -mr-2.5 bg-teal"></div>
+            <div class="w-9 h-9 rounded-full border-2 border-white bg-muted"></div>
+          </div>
+          <div class="ml-4">
+            <div class="text-orange text-base">★★★★★</div>
+            <div class="text-xs text-muted">Trusted by 10,000+ parents</div>
+          </div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><span>1,200+</span> Daycares</div>
-        <div class="stat-div"></div>
-        <div class="stat"><span>98%</span> Verified</div>
-        <div class="stat-div"></div>
-        <div class="stat"><span>4.9★</span> Avg Rating</div>
+      <div class="hidden lg:flex items-center justify-center">
+        <div class="w-96 h-72 bg-cream rounded-3xl flex items-center justify-center text-8xl shadow-custom">
+          <div class="animate-bounce">👶</div>
+        </div>
       </div>
     </div>
 
-    <div class="hero-cards">
-      <div class="float-card fc1">
-        <div class="fc-icon">🌟</div>
-        <div><strong>Little Stars Daycare</strong><br><small>4.9 · 2 spots left</small></div>
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-2 md:grid-cols-4 border-t border-border py-8 md:py-10 px-6 md:px-16 max-w-7xl mx-auto w-full gap-6">
+      <div class="text-center"><span class="block text-3xl font-extrabold text-orange mb-1">500+</span><span class="text-sm text-muted">Verified Centers</span></div>
+      <div class="text-center"><span class="block text-3xl font-extrabold text-orange mb-1">10,000+</span><span class="text-sm text-muted">Happy Parents</span></div>
+      <div class="text-center"><span class="block text-3xl font-extrabold text-orange mb-1">15,000+</span><span class="text-sm text-muted">Children Enrolled</span></div>
+      <div class="text-center"><span class="block text-3xl font-extrabold text-orange mb-1">50+</span><span class="text-sm text-muted">Cities Covered</span></div>
+    </div>
+  </section>
+
+  <!-- ───────────── HOW IT WORKS ───────────── -->
+  <section class="py-16 md:py-20 px-6 md:px-16 bg-white" id="how-it-works-section">
+    <div class="text-center mb-16">
+      <h2 class="font-body text-3xl font-extrabold text-navy mb-2">How It Works</h2>
+      <p class="text-muted text-base">Get started in 3 simple steps</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
+      <div class="flex flex-col">
+        <div class="text-6xl font-extrabold text-border leading-none mb-4">01</div>
+        <h3 class="text-lg font-bold text-navy mb-2">Explore &amp; Compare</h3>
+        <p class="text-sm text-muted leading-relaxed">Browse verified daycare centers in your area, filter by location, ratings, and amenities</p>
       </div>
-      <div class="float-card fc2">
-        <div class="fc-icon">🎨</div>
-        <div><strong>Creative Cubs</strong><br><small>4.8 · Open enrollment</small></div>
+      <div class="flex flex-col">
+        <div class="text-6xl font-extrabold text-border leading-none mb-4">02</div>
+        <h3 class="text-lg font-bold text-navy mb-2">Visit &amp; Enroll</h3>
+        <p class="text-sm text-muted leading-relaxed">Schedule visits, meet staff, and enroll your child in the daycare that fits your needs</p>
       </div>
-      <div class="float-card fc3">
-        <div class="fc-icon">🌈</div>
-        <div><strong>Rainbow Den</strong><br><small>4.7 · Waitlist available</small></div>
+      <div class="flex flex-col">
+        <div class="text-6xl font-extrabold text-border leading-none mb-4">03</div>
+        <h3 class="text-lg font-bold text-navy mb-2">Track &amp; Connect</h3>
+        <p class="text-sm text-muted leading-relaxed">Access daily updates, live CCTV, health reports, and chat with staff from your dashboard</p>
       </div>
     </div>
   </section>
 
-  <!-- ───────────── PARENT MODULE ───────────── -->
-  <section class="module hidden" id="module-parent">
-    <div class="module-nav">
-      <button class="back-btn" onclick="showLanding()">← Back</button>
-      <div class="module-logo">🌱 TinyWorld <span class="module-tag">Parents</span></div>
-      <button class="btn-sm" onclick="openAuthModal('login')">Login / Sign Up</button>
+  <!-- ───────────── TESTIMONIALS ───────────── -->
+  <section class="py-16 md:py-20 px-6 md:px-16 bg-[#fafaf8]">
+    <div class="text-center mb-16">
+      <h2 class="font-body text-3xl font-extrabold text-navy mb-2">What Parents Say</h2>
+      <p class="text-muted text-base">Real stories from real parents</p>
     </div>
-
-    <div class="parent-layout">
-      <!-- Search Sidebar -->
-      <aside class="search-sidebar">
-        <h2>Find Your Match</h2>
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="City, ZIP, or name..." oninput="filterDaycares()" />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="bg-white border border-border rounded-2xl p-7 shadow-sm">
+        <div class="text-orange text-base mb-3.5">★★★★★</div>
+        <p class="text-sm text-gray-600 leading-relaxed mb-5">"LittleSteps gave me peace of mind. I can see my daughter playing and learning throughout the day. The staff communication is excellent and the platform is so easy to use."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-orange text-white flex items-center justify-center font-bold text-sm shrink-0">P</div>
+          <div><strong class="text-sm text-navy block">Priya Sharma</strong><small class="text-xs text-muted">Mother of 2-year-old</small></div>
         </div>
+      </div>
+      <div class="bg-white border border-border rounded-2xl p-7 shadow-sm">
+        <div class="text-orange text-base mb-3.5">★★★★★</div>
+        <p class="text-sm text-gray-600 leading-relaxed mb-5">"As a working parent, this platform has been a lifesaver. The daily updates and health reports are incredibly helpful. I feel connected to my son even when I'm at work."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-orange text-white flex items-center justify-center font-bold text-sm shrink-0">R</div>
+          <div><strong class="text-sm text-navy block">Rahul Verma</strong><small class="text-xs text-muted">Father of 3-year-old</small></div>
+        </div>
+      </div>
+      <div class="bg-white border border-border rounded-2xl p-7 shadow-sm">
+        <div class="text-orange text-base mb-3.5">★★★★★</div>
+        <p class="text-sm text-gray-600 leading-relaxed mb-5">"Finding a trustworthy daycare was my biggest worry. LittleSteps made it easy with verified centers and transparent reviews. Highly recommend to all parents!"</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-orange text-white flex items-center justify-center font-bold text-sm shrink-0">A</div>
+          <div><strong class="text-sm text-navy block">Anita Kapoor</strong><small class="text-xs text-muted">Mother of twins</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="filter-group">
-          <label>Age Group</label>
-          <div class="tag-group" id="ageFilter">
-            <span class="tag active" data-val="all" onclick="toggleTag(this,'age')">All</span>
-            <span class="tag" data-val="infant" onclick="toggleTag(this,'age')">Infant</span>
-            <span class="tag" data-val="toddler" onclick="toggleTag(this,'age')">Toddler</span>
-            <span class="tag" data-val="preschool" onclick="toggleTag(this,'age')">Preschool</span>
+  <!-- ───────────── CTA SECTION ───────────── -->
+  <section class="bg-orange py-16 md:py-20 px-6 md:px-16 text-center text-white">
+    <h2 class="font-body text-3xl font-extrabold mb-3">Ready to Find the Perfect Daycare?</h2>
+    <p class="text-base opacity-90 mb-8">Join thousands of happy parents who trust LittleSteps for their child's care</p>
+    <div class="flex gap-4 justify-center flex-wrap">
+      <button class="bg-[#2ECC71] text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-[#27ae60] transition-colors" onclick="showModule('parent')">Get Started →</button>
+      <button class="bg-transparent text-white border-2 border-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-white hover:text-orange transition-colors" onclick="showContact()">Contact Us</button>
+    </div>
+  </section>
+
+  <!-- ───────────── PARENT MODULE ───────────── -->
+  <section class="hidden flex-1 flex flex-col" id="module-parent">
+    <nav class="sticky top-0 z-[100] flex items-center justify-between px-6 md:px-16 py-4 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] border-b border-border">
+      <div class="font-body text-xl font-bold text-navy flex items-center gap-2"><span class="text-2xl">👶🏻</span> LittleSteps</div>
+      <div class="flex gap-4 md:gap-6 items-center flex-wrap justify-end">
+        <a href="#" onclick="showLanding()" class="text-navy font-medium text-sm transition-colors hover:text-orange">Home</a>
+        <a href="#" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden sm:block">About</a>
+        <a href="#" onclick="showModule('parent')" class="text-orange font-semibold text-sm transition-colors hover:text-orange">Programs</a>
+        <a href="#" onclick="showModule('parent')" class="text-orange font-semibold text-sm transition-colors hover:text-orange hidden sm:block">Explore</a>
+        <a href="#" onclick="showContact()" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden sm:block">Contact</a>
+        <a href="#" class="text-navy font-medium text-sm transition-colors hover:text-orange hidden md:block">FAQ</a>
+        <a href="#" onclick="openAuthModal('login')" class="text-navy font-medium text-sm transition-colors hover:text-orange">Login</a>
+        <a href="#" class="bg-orange text-white px-5 py-2 rounded-lg font-semibold hover:bg-orange-dark transition-colors text-sm" onclick="openAuthModal('signup')">Register</a>
+      </div>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-0 min-h-[calc(100vh-65px)] items-start">
+      <aside class="bg-white border-r border-border p-6 lg:p-8 overflow-y-auto lg:sticky lg:top-[65px] lg:max-h-[calc(100vh-65px)] border-b lg:border-b-0">
+        <h2 class="font-display text-2xl text-navy mb-5">Find Your Match</h2>
+        <div class="flex items-center bg-cream border-[1.5px] border-border rounded-lg px-3.5 mb-6 transition-colors focus-within:border-coral">
+          <span class="text-base mr-2">🔍</span>
+          <input type="text" id="searchInput" placeholder="City, ZIP, or name..." oninput="filterDaycares()" class="border-none bg-transparent outline-none font-body text-[0.92rem] text-ink py-3 w-full" />
+        </div>
+        <div class="mb-5.5">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2.5">Age Group</label>
+          <div class="flex flex-wrap gap-2" id="ageFilter">
+            <span class="active bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="all" onclick="toggleTag(this,'age')">All</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="infant" onclick="toggleTag(this,'age')">Infant</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="toddler" onclick="toggleTag(this,'age')">Toddler</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="preschool" onclick="toggleTag(this,'age')">Preschool</span>
           </div>
         </div>
-
-        <div class="filter-group">
-          <label>Type</label>
-          <div class="tag-group" id="typeFilter">
-            <span class="tag active" data-val="all" onclick="toggleTag(this,'type')">All</span>
-            <span class="tag" data-val="center" onclick="toggleTag(this,'type')">Center</span>
-            <span class="tag" data-val="home" onclick="toggleTag(this,'type')">Home</span>
-            <span class="tag" data-val="montessori" onclick="toggleTag(this,'type')">Montessori</span>
+        <div class="mb-5.5">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2.5">Type</label>
+          <div class="flex flex-wrap gap-2" id="typeFilter">
+            <span class="active bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="all" onclick="toggleTag(this,'type')">All</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="center" onclick="toggleTag(this,'type')">Center</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="home" onclick="toggleTag(this,'type')">Home</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="montessori" onclick="toggleTag(this,'type')">Montessori</span>
           </div>
         </div>
-
-        <div class="filter-group">
-          <label>Max Monthly Cost: <strong id="costLabel">$2000</strong></label>
+        <div class="mb-5.5">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2.5">Max Monthly Cost: <strong id="costLabel" class="text-navy">Rs.2000</strong></label>
           <input type="range" id="costRange" min="500" max="3000" step="100" value="2000"
-            oninput="document.getElementById('costLabel').textContent='$'+this.value; filterDaycares()" />
+            oninput="document.getElementById('costLabel').textContent='Rs.'+this.value; filterDaycares()" class="w-full mt-1.5 accent-coral" />
         </div>
-
-        <div class="filter-group">
-          <label>Min Rating</label>
-          <div class="tag-group">
-            <span class="tag active" data-val="0" onclick="setRating(this,0)">Any</span>
-            <span class="tag" data-val="4" onclick="setRating(this,4)">4+★</span>
-            <span class="tag" data-val="4.5" onclick="setRating(this,4.5)">4.5+★</span>
+        <div class="mb-6">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-muted mb-2.5">Min Rating</label>
+          <div class="flex flex-wrap gap-2">
+            <span class="active bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="0" data-rating="0" onclick="setRating(this,0)">Any</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="4" data-rating="4" onclick="setRating(this,4)">4+★</span>
+            <span class="bg-cream border-[1.5px] border-border text-muted cursor-pointer px-3.5 py-1.5 rounded-full text-[0.82rem] font-medium transition-all hover:border-coral hover:text-coral [&.active]:bg-coral [&.active]:border-coral [&.active]:text-white" data-val="4.5" data-rating="4.5" onclick="setRating(this,4.5)">4.5+★</span>
           </div>
         </div>
-
-        <button class="btn-primary full-w" onclick="filterDaycares()">Apply Filters</button>
+        <button class="w-full bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors shadow-sm" onclick="filterDaycares()">Apply Filters</button>
       </aside>
 
-      <!-- Daycare Listings -->
-      <main class="listings">
-        <div class="listings-header">
-          <h3 id="listingCount">Showing 6 daycares</h3>
-          <select id="sortSelect" onchange="filterDaycares()">
+      <main class="p-6 lg:p-9">
+        <div class="flex items-center justify-between mb-6">
+          <h3 id="listingCount" class="font-display text-xl text-navy">Loading daycares...</h3>
+          <select id="sortSelect" onchange="filterDaycares()" class="border-[1.5px] border-border bg-white rounded-lg px-3.5 py-2 font-body text-[0.88rem] text-ink outline-none cursor-pointer focus:border-coral">
             <option value="rating">Sort: Top Rated</option>
             <option value="price">Sort: Lowest Price</option>
             <option value="name">Sort: Name A–Z</option>
           </select>
         </div>
-        <div class="cards-grid" id="daycareCards"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="daycareCards">
+          <div style="grid-column:1/-1;text-align:center;padding:40px;" class="text-muted">⏳ Fetching daycares from database...</div>
+        </div>
       </main>
     </div>
 
     <!-- Detail Modal -->
-    <div class="modal-overlay hidden" id="detailModal">
-      <div class="modal detail-modal">
-        <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    <div class="fixed inset-0 bg-navy/50 backdrop-blur-sm z-[1000] flex items-center justify-center animate-[fadeIn_0.2s_ease] hidden" id="detailModal">
+      <div class="bg-white rounded-2xl p-0 relative w-[95vw] max-w-[640px] max-h-[85vh] overflow-y-auto shadow-custom-lg animate-[scaleIn_0.25s_ease]">
+        <button class="absolute top-4 right-4 bg-cream border-none cursor-pointer w-8 h-8 rounded-full text-sm flex items-center justify-center transition-colors hover:bg-peach z-10" onclick="closeModal('detailModal')">✕</button>
         <div id="detailContent"></div>
       </div>
     </div>
   </section>
 
   <!-- ───────────── DAYCARE MODULE ───────────── -->
-  <section class="module hidden" id="module-daycare">
-    <div class="module-nav dark">
-      <button class="back-btn light" onclick="showLanding()">← Back</button>
-      <div class="module-logo light">🌱 TinyWorld <span class="module-tag teal">Daycares</span></div>
-      <button class="btn-sm teal" onclick="openAuthModal('login')">Login / Sign Up</button>
+  <section class="hidden flex-1 flex flex-col" id="module-daycare">
+    <div class="flex items-center justify-between px-6 md:px-10 py-4 bg-navy">
+      <button class="bg-transparent border border-white/30 text-white cursor-pointer px-4 py-2 rounded-full font-body text-[0.88rem] transition-all hover:bg-white/15" onclick="showLanding()">← Back</button>
+      <div class="font-display text-xl font-bold text-white flex items-center gap-2">🌱 LittleSteps <span class="bg-teal/15 text-teal px-2.5 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Daycares</span></div>
+      <button class="bg-teal text-white border-none cursor-pointer px-4.5 py-2 rounded-lg font-body text-[0.88rem] font-semibold transition-colors hover:bg-teal-dark" onclick="openAuthModal('login')">Login / Sign Up</button>
     </div>
 
-    <div class="daycare-hero">
-      <div class="dh-text">
-        <h2>Grow your enrollment.<br>Manage everything.</h2>
-        <p>Your all-in-one dashboard for listings, inquiries, and family connections.</p>
-        <button class="btn-primary teal-btn" onclick="showDaycareDashboard()">Open Dashboard</button>
+    <div class="bg-navy px-6 md:px-16 py-16 md:py-20 flex flex-col lg:flex-row gap-10 md:gap-16 items-center">
+      <div class="flex-1">
+        <h2 class="font-display text-4xl md:text-5xl text-white leading-tight mb-4">Grow your enrollment.<br>Manage everything.</h2>
+        <p class="text-white/65 text-[1.05rem] leading-relaxed mb-7 max-w-lg">Your all-in-one dashboard for listings, inquiries, and family connections.</p>
+        <div class="flex gap-3 flex-wrap">
+          <button class="bg-teal text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-teal-dark transition-colors" onclick="showDaycareDashboard()">Open Dashboard</button>
+          <button class="bg-transparent text-white border-2 border-white/40 px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-white hover:text-navy transition-colors" onclick="openRegisterDaycareModal()">+ Register My Daycare</button>
+        </div>
       </div>
-      <div class="dh-art">
-        <div class="dh-card">
-          <div class="dh-stat">🏠 My Daycare</div>
-          <div class="dh-nums">
-            <div><span class="big-num" id="enrollCount">24</span><br><small>Enrolled</small></div>
-            <div><span class="big-num" id="inquiryCount">7</span><br><small>New Inquiries</small></div>
-            <div><span class="big-num">4.9</span><br><small>Rating</small></div>
+      <div class="w-full lg:w-[360px] shrink-0">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-7 md:p-8 backdrop-blur-md">
+          <div class="text-white/70 text-[0.85rem] font-semibold mb-5 tracking-wider uppercase">🏠 My Daycare</div>
+          <div class="flex gap-8">
+            <div><span class="font-display text-[2.5rem] font-bold text-teal block leading-none" id="enrollCount">—</span><small class="text-white/50 text-[0.8rem] mt-1 block">Enrolled</small></div>
+            <div><span class="font-display text-[2.5rem] font-bold text-teal block leading-none" id="inquiryCount">—</span><small class="text-white/50 text-[0.8rem] mt-1 block">New Inquiries</small></div>
+            <div><span class="font-display text-[2.5rem] font-bold text-teal block leading-none">★</span><small class="text-white/50 text-[0.8rem] mt-1 block">Verified</small></div>
           </div>
         </div>
       </div>
@@ -167,192 +297,529 @@
 
     <!-- Dashboard -->
     <div id="daycareDashboard" class="hidden">
-      <div class="dash-tabs">
-        <button class="dash-tab active" onclick="switchTab(this,'tab-listings')">📋 Listings</button>
-        <button class="dash-tab" onclick="switchTab(this,'tab-inquiries')">💬 Inquiries</button>
-        <button class="dash-tab" onclick="switchTab(this,'tab-children')">👶 Children</button>
-        <button class="dash-tab" onclick="switchTab(this,'tab-profile')">⚙️ Profile</button>
+      <div class="flex overflow-x-auto border-b-2 border-border bg-white px-6 md:px-10 no-scrollbar">
+        <button class="dash-tab active bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-0.5 transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchTab(this,'tab-listings')">📋 Programs</button>
+        <button class="dash-tab bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-0.5 transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchTab(this,'tab-inquiries')">💬 Inquiries</button>
+        <button class="dash-tab bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-0.5 transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchTab(this,'tab-children')">👶 Children</button>
+        <button class="dash-tab bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-0.5 transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchTab(this,'tab-attendance'); initAttendanceTab()">✅ Attendance</button>
+        <button class="dash-tab bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-0.5 transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchTab(this,'tab-profile')">⚙️ Profile</button>
       </div>
 
       <!-- LISTINGS TAB -->
-      <div class="tab-content" id="tab-listings">
-        <div class="tab-header">
-          <h3>My Listings</h3>
-          <button class="btn-primary sm" onclick="openListingForm()">+ Add Listing</button>
+      <div class="tab-content p-6 md:p-10" id="tab-listings">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-display text-[1.4rem] text-navy">My Listings</h3>
+          <button class="bg-orange text-white px-4.5 py-2 rounded-lg font-body text-[0.88rem] font-semibold hover:bg-orange-dark transition-colors" onclick="openListingForm()">+ Add Program</button>
         </div>
-        <table class="data-table" id="listingsTable">
-          <thead><tr><th>Name</th><th>Slots</th><th>Age</th><th>Cost/mo</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody id="listingsBody"></tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse" id="listingsTable">
+            <thead><tr class="bg-cream"><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Name</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Slots</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Age Group</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Cost/mo</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Status</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Actions</th></tr></thead>
+            <tbody id="listingsBody"><tr><td colspan="6" class="text-center py-6 text-muted border-b border-border">⏳ Loading...</td></tr></tbody>
+          </table>
+        </div>
       </div>
 
       <!-- INQUIRIES TAB -->
-      <div class="tab-content hidden" id="tab-inquiries">
-        <h3>Parent Inquiries</h3>
-        <div id="inquiriesList"></div>
+      <div class="tab-content hidden p-6 md:p-10" id="tab-inquiries">
+        <h3 class="mb-5 font-display text-[1.4rem] text-navy">Parent Inquiries</h3>
+        <div id="inquiriesList"><div class="text-center py-8 text-muted">⏳ Loading...</div></div>
       </div>
 
       <!-- CHILDREN TAB -->
-      <div class="tab-content hidden" id="tab-children">
-        <div class="tab-header">
-          <h3>Enrolled Children</h3>
-          <button class="btn-primary sm" onclick="openChildForm()">+ Add Child</button>
+      <div class="tab-content hidden p-6 md:p-10" id="tab-children">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-display text-[1.4rem] text-navy">Enrolled Children</h3>
+          <button class="bg-orange text-white px-4.5 py-2 rounded-lg font-body text-[0.88rem] font-semibold hover:bg-orange-dark transition-colors" onclick="openChildForm()">+ Add Child</button>
         </div>
-        <table class="data-table">
-          <thead><tr><th>Name</th><th>Age</th><th>Parent</th><th>Start Date</th><th>Status</th></tr></thead>
-          <tbody id="childrenBody"></tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead><tr class="bg-cream"><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Name</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Age</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Parent</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Start Date</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Status</th></tr></thead>
+            <tbody id="childrenBody"><tr><td colspan="5" class="text-center py-6 text-muted border-b border-border">⏳ Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ATTENDANCE TAB -->
+      <div class="tab-content hidden p-6 md:p-10" id="tab-attendance">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <h3 class="font-display text-[1.4rem] text-navy">Attendance</h3>
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <label class="text-[0.85rem] font-semibold text-muted">Date:</label>
+            <input type="date" id="attendanceDate" class="px-3 py-2 border border-border rounded-lg font-body text-[0.875rem] outline-none" onchange="renderAttendanceSheet()" />
+            <button class="bg-orange text-white px-4.5 py-2 rounded-lg font-body text-[0.88rem] font-semibold hover:bg-orange-dark transition-colors" onclick="saveAllAttendance()">💾 Save Attendance</button>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div id="attendanceSummaryCards" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6"></div>
+
+        <!-- Attendance Sheet Table -->
+        <div id="attendanceSheetWrap" class="overflow-x-auto mb-8">
+          <table class="w-full border-collapse min-w-[600px]" id="attendanceTable">
+            <thead>
+              <tr class="bg-cream">
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Child Name</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Parent</th>
+                <th class="text-center text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Present</th>
+                <th class="text-center text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Absent</th>
+                <th class="text-center text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Late</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceBody">
+              <tr><td colspan="6" class="text-center py-6 text-muted border-b border-border">Select a date to mark attendance.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 30-day Summary -->
+        <div class="mt-8 pt-8 border-t border-border">
+          <h4 class="font-display text-[1.2rem] text-navy mb-4">📊 Last 30 Days Summary</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse min-w-[500px]">
+              <thead><tr class="bg-cream"><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Child</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Present</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Absent</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Late</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Total Days</th><th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b-2 border-border">Rate</th></tr></thead>
+              <tbody id="attendanceSummaryBody">
+                <tr><td colspan="6" class="text-center py-6 text-muted border-b border-border">⏳ Loading summary...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <!-- PROFILE TAB -->
-      <div class="tab-content hidden" id="tab-profile">
-        <h3>Daycare Profile</h3>
-        <form class="profile-form" onsubmit="saveProfile(event)">
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Daycare Name</label>
-              <input type="text" id="dcName" value="Little Stars Daycare" />
+      <div class="tab-content hidden p-6 md:p-10" id="tab-profile">
+        <h3 class="mb-6 font-display text-[1.4rem] text-navy">Daycare Profile</h3>
+        <form onsubmit="saveProfile(event)" class="bg-white">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4.5 mb-6">
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Daycare Name</label><input type="text" id="dcName" placeholder="Little Stars Daycare" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">License Number</label><input type="text" id="dcLicense" placeholder="DC-2024-1234" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Address</label><input type="text" id="dcAddress" placeholder="123 Maple St, Springfield" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Phone</label><input type="tel" id="dcPhone" placeholder="(555) 123-4567" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Type</label>
+              <select id="dcType" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral cursor-pointer">
+                <option value="center">Center</option>
+                <option value="home">Home</option>
+                <option value="montessori">Montessori</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label>License Number</label>
-              <input type="text" id="dcLicense" value="DC-2024-1234" />
-            </div>
-            <div class="form-group">
-              <label>Address</label>
-              <input type="text" id="dcAddress" value="123 Maple St, Springfield" />
-            </div>
-            <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" id="dcPhone" value="(555) 123-4567" />
-            </div>
-            <div class="form-group full">
-              <label>Description</label>
-              <textarea id="dcDesc" rows="3">A nurturing environment where every child thrives through play, creativity, and love.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Capacity</label>
-              <input type="number" id="dcCapacity" value="30" />
-            </div>
-            <div class="form-group">
-              <label>Hours</label>
-              <input type="text" id="dcHours" value="7:00 AM – 6:00 PM" />
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Capacity</label><input type="number" id="dcCapacity" placeholder="30" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Hours</label><input type="text" id="dcHours" placeholder="7:00 AM – 6:00 PM" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Monthly Cost ($)</label><input type="number" id="dcCost" placeholder="1200" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Available Slots</label><input type="number" id="dcSlots" placeholder="5" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Age Groups (comma-separated)</label><input type="text" id="dcAgeGroups" placeholder="Infant (0-12m), Toddler (1-3y)" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5 md:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Description</label>
+              <textarea id="dcDesc" rows="3" placeholder="Describe your daycare..." class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral resize-y"></textarea>
             </div>
           </div>
-          <button type="submit" class="btn-primary">Save Profile</button>
+          <button type="submit" class="bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors">Save Profile to Database</button>
         </form>
       </div>
     </div>
 
-    <!-- Listing Form Modal -->
-    <div class="modal-overlay hidden" id="listingModal">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal('listingModal')">✕</button>
-        <h3>Add / Edit Listing</h3>
-        <form class="profile-form" onsubmit="saveListing(event)">
-          <div class="form-grid">
-            <div class="form-group full">
-              <label>Program Name</label>
-              <input type="text" id="lName" placeholder="e.g. Infant Full-Day" required />
-            </div>
-            <div class="form-group">
-              <label>Age Group</label>
-              <select id="lAge">
+    <!-- ── Listing Form Modal ── -->
+    <div class="fixed inset-0 bg-navy/50 backdrop-blur-sm z-[1000] flex items-center justify-center animate-[fadeIn_0.2s_ease] hidden" id="listingModal">
+      <div class="bg-white rounded-2xl p-7 md:p-9 w-[95vw] max-w-[480px] max-h-[90vh] overflow-y-auto relative shadow-custom-lg animate-[scaleIn_0.25s_ease]">
+        <button class="absolute top-4 right-4 bg-cream border-none cursor-pointer w-8 h-8 rounded-full text-sm flex items-center justify-center transition-colors hover:bg-peach z-10" onclick="closeModal('listingModal')">✕</button>
+        <h3 class="font-display text-[1.4rem] text-navy mb-5 pb-3 border-b border-border">Add / Edit new Program</h3>
+        <form id="listingForm" onsubmit="saveListing(event)">
+          <div class="grid grid-cols-1 gap-4.5 mb-6">
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Program Name</label><input type="text" id="lName" placeholder="e.g. Infant Full-Day" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Age Group</label>
+              <select id="lAge" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral cursor-pointer">
                 <option>Infant (0-12m)</option>
                 <option>Toddler (1-3y)</option>
                 <option>Preschool (3-5y)</option>
               </select>
             </div>
-            <div class="form-group">
-              <label>Available Slots</label>
-              <input type="number" id="lSlots" value="5" min="0" />
-            </div>
-            <div class="form-group">
-              <label>Monthly Cost (Rs )</label>
-              <input type="number" id="lCost" value="1200" />
-            </div>
-            <div class="form-group">
-              <label>Type</label>
-              <select id="lType">
-                <option>Center</option>
-                <option>Home</option>
-                <option>Montessori</option>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Available Slots</label><input type="number" id="lSlots" value="5" min="0" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Monthly Cost ($)</label><input type="number" id="lCost" value="1200" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Type</label>
+              <select id="lType" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral cursor-pointer">
+                <option>Center</option><option>Home</option><option>Montessori</option>
               </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary">Save Listing</button>
+          <button type="submit" class="w-full bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors">Save Listing</button>
         </form>
       </div>
     </div>
 
-    <!-- Child Form Modal -->
-    <div class="modal-overlay hidden" id="childModal">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal('childModal')">✕</button>
-        <h3>Add Child</h3>
-        <form class="profile-form" onsubmit="saveChild(event)">
-          <div class="form-grid">
-            <div class="form-group"><label>Child Name</label><input type="text" id="cName" required /></div>
-            <div class="form-group"><label>Date of Birth</label><input type="date" id="cDob" required /></div>
-            <div class="form-group"><label>Parent Name</label><input type="text" id="cParent" required /></div>
-            <div class="form-group"><label>Parent Email</label><input type="email" id="cEmail" required /></div>
-            <div class="form-group"><label>Start Date</label><input type="date" id="cStart" required /></div>
-            <div class="form-group"><label>Program</label>
-              <select id="cProgram"><option>Infant Full-Day</option><option>Toddler Half-Day</option><option>Preschool Full-Day</option></select>
+    <!-- ── Child Form Modal ── -->
+    <div class="fixed inset-0 bg-navy/50 backdrop-blur-sm z-[1000] flex items-center justify-center animate-[fadeIn_0.2s_ease] hidden" id="childModal">
+      <div class="bg-white rounded-2xl p-7 md:p-9 w-[95vw] max-w-[480px] max-h-[90vh] overflow-y-auto relative shadow-custom-lg animate-[scaleIn_0.25s_ease]">
+        <button class="absolute top-4 right-4 bg-cream border-none cursor-pointer w-8 h-8 rounded-full text-sm flex items-center justify-center transition-colors hover:bg-peach z-10" onclick="closeModal('childModal')">✕</button>
+        <h3 class="font-display text-[1.4rem] text-navy mb-5 pb-3 border-b border-border">Enroll a Child</h3>
+        <form onsubmit="saveChild(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4.5 mb-6">
+            <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Child Name</label><input type="text" id="cName" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Date of Birth</label><input type="date" id="cDob" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Parent Name</label><input type="text" id="cParent" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Parent Email</label><input type="email" id="cEmail" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Start Date</label><input type="date" id="cStart" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Program</label>
+              <select id="cProgram" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral cursor-pointer">
+                <option>Infant Full-Day</option>
+                <option>Toddler Half-Day</option>
+                <option>Preschool Full-Day</option>
+              </select>
             </div>
           </div>
-          <button type="submit" class="btn-primary">Enroll Child</button>
+          <button type="submit" class="w-full bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors">Enroll Child</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── REGISTER DAYCARE MODAL (NEW) ── -->
+    <div class="fixed inset-0 bg-navy/50 backdrop-blur-sm z-[1000] flex items-center justify-center animate-[fadeIn_0.2s_ease] hidden" id="registerDaycareModal">
+      <div class="bg-white rounded-2xl p-7 md:p-9 w-[95vw] max-w-[580px] max-h-[90vh] overflow-y-auto relative shadow-custom-lg animate-[scaleIn_0.25s_ease]">
+        <button class="absolute top-4 right-4 bg-cream border-none cursor-pointer w-8 h-8 rounded-full text-sm flex items-center justify-center transition-colors hover:bg-peach z-10" onclick="closeModal('registerDaycareModal')">✕</button>
+        <div class="mb-5">
+          <div class="inline-block bg-cream text-muted px-2.5 py-1 rounded-full text-[0.72rem] font-bold uppercase tracking-wider mb-2.5">Step 1 of 1</div>
+          <h3 class="font-display text-[1.4rem] text-navy">Register Your Daycare</h3>
+          <p class="text-muted text-[0.9rem] mt-1.5">This creates your daycare profile in the database and makes it discoverable to parents.</p>
+        </div>
+        <form onsubmit="handleRegisterDaycare(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4.5 mb-6">
+            <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Daycare Name *</label><input type="text" id="rdName" required placeholder="e.g. Little Stars Daycare" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">License Number *</label><input type="text" id="rdLicense" required placeholder="DC-2024-0001" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Phone *</label><input type="tel" id="rdPhone" required placeholder="(555) 123-4567" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Address *</label><input type="text" id="rdAddress" required placeholder="123 Maple St, Springfield, IL" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Type *</label>
+              <select id="rdType" required class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral cursor-pointer">
+                <option value="center">Center</option>
+                <option value="home">Home</option>
+                <option value="montessori">Montessori</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Hours *</label><input type="text" id="rdHours" required placeholder="7:00 AM – 6:00 PM" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Capacity</label><input type="number" id="rdCapacity" value="20" min="1" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Monthly Cost ($)</label><input type="number" id="rdCost" value="0" min="0" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Available Slots</label><input type="number" id="rdSlots" value="0" min="0" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Emoji Icon</label><input type="text" id="rdEmoji" placeholder="🏠" maxlength="4" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Card Color (hex)</label><input type="color" id="rdColor" value="#FFF8F0" class="h-[42px] px-2 py-1 border-[1.5px] border-border rounded-lg font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral w-full cursor-pointer" /></div>
+            <div class="flex flex-col gap-1.5 sm:col-span-2">
+              <label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Age Groups Served</label>
+              <div class="flex gap-4 flex-wrap mt-1.5">
+                <label class="flex gap-2 items-center text-[0.9rem] font-medium cursor-pointer">
+                  <input type="checkbox" class="age-checkbox accent-coral" value="Infant (0-12m)" /> Infant (0–12m)
+                </label>
+                <label class="flex gap-2 items-center text-[0.9rem] font-medium cursor-pointer">
+                  <input type="checkbox" class="age-checkbox accent-coral" value="Toddler (1-3y)" /> Toddler (1–3y)
+                </label>
+                <label class="flex gap-2 items-center text-[0.9rem] font-medium cursor-pointer">
+                  <input type="checkbox" class="age-checkbox accent-coral" value="Preschool (3-5y)" /> Preschool (3–5y)
+                </label>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1.5 sm:col-span-2"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Description</label>
+              <textarea id="rdDesc" rows="3" placeholder="Describe your daycare, curriculum, and what makes it special..." class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral resize-y"></textarea>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <button type="submit" class="bg-orange text-white px-6 py-3.5 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors flex-1">Register Daycare in Database 🏠</button>
+            <button type="button" class="bg-transparent border-[1.5px] border-border text-navy px-6 py-3.5 rounded-lg font-body text-[0.9rem] font-semibold hover:border-navy transition-colors" onclick="closeModal('registerDaycareModal')">Cancel</button>
+          </div>
         </form>
       </div>
     </div>
   </section>
 
   <!-- ───────────── AUTH MODAL ───────────── -->
-  <div class="modal-overlay hidden" id="authModal">
-    <div class="modal auth-modal">
-      <button class="modal-close" onclick="closeModal('authModal')">✕</button>
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</button>
-        <button class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Sign Up</button>
+  <div class="fixed inset-0 bg-navy/50 backdrop-blur-sm z-[1000] flex items-center justify-center animate-[fadeIn_0.2s_ease] hidden" id="authModal">
+    <div class="bg-white rounded-2xl p-7 md:p-9 w-[95vw] max-w-[400px] relative shadow-custom-lg animate-[scaleIn_0.25s_ease]">
+      <button class="absolute top-4 right-4 bg-cream border-none cursor-pointer w-8 h-8 rounded-full text-sm flex items-center justify-center transition-colors hover:bg-peach z-10" onclick="closeModal('authModal')">✕</button>
+      <div class="flex mb-6 bg-cream rounded-xl p-1 relative z-[1]">
+        <button class="flex-1 bg-transparent border-none py-2.5 rounded-lg font-body text-sm font-bold text-muted cursor-pointer transition-all hover:text-navy active [&.active]:bg-white [&.active]:text-navy [&.active]:shadow-sm" id="loginTab" onclick="switchAuthTab('login')">Login</button>
+        <button class="flex-1 bg-transparent border-none py-2.5 rounded-lg font-body text-sm font-bold text-muted cursor-pointer transition-all hover:text-navy [&.active]:bg-white [&.active]:text-navy [&.active]:shadow-sm" id="signupTab" onclick="switchAuthTab('signup')">Sign Up</button>
       </div>
 
-      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
-        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="you@example.com" /></div>
-        <div class="form-group"><label>Password</label><input type="password" id="loginPass" required placeholder="••••••••" /></div>
-        <div class="form-group">
-          <label>I am a</label>
-          <div class="radio-group">
-            <label><input type="radio" name="loginRole" value="parent" checked /> Parent</label>
-            <label><input type="radio" name="loginRole" value="daycare" /> Daycare Provider</label>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="flex flex-col gap-4 mb-6">
+          <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Email</label><input type="email" id="loginEmail" required placeholder="you@example.com" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+          <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Password</label><input type="password" id="loginPass" required placeholder="••••••••" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">I am a</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="loginRole" value="parent" checked class="accent-coral" /> Parent</label>
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="loginRole" value="daycare" class="accent-coral" /> Daycare Provider</label>
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="loginRole" value="admin" class="accent-coral" /> Admin</label>
+            </div>
           </div>
         </div>
-        <button type="submit" class="btn-primary full-w">Login</button>
+        <button type="submit" class="w-full bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors shadow-sm">Login</button>
       </form>
 
-      <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
-        <div class="form-group"><label>Full Name</label><input type="text" id="signupName" required placeholder="Jane Doe" /></div>
-        <div class="form-group"><label>Email</label><input type="email" id="signupEmail" required placeholder="you@example.com" /></div>
-        <div class="form-group"><label>Password</label><input type="password" id="signupPass" required placeholder="••••••••" /></div>
-        <div class="form-group">
-          <label>I am a</label>
-          <div class="radio-group">
-            <label><input type="radio" name="signupRole" value="parent" checked /> Parent</label>
-            <label><input type="radio" name="signupRole" value="daycare" /> Daycare Provider</label>
+      <form id="signupForm" class="hidden" onsubmit="handleSignup(event)">
+        <div class="flex flex-col gap-4 mb-6">
+          <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Full Name</label><input type="text" id="signupName" required placeholder="Jane Doe" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+          <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Email</label><input type="email" id="signupEmail" required placeholder="you@example.com" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+          <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Password</label><input type="password" id="signupPass" required placeholder="••••••••" class="border-[1.5px] border-border rounded-lg p-2.5 font-body text-[0.92rem] text-ink bg-white outline-none transition-colors focus:border-coral" /></div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">I am a</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="signupRole" value="parent" checked class="accent-coral" /> Parent</label>
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="signupRole" value="daycare" class="accent-coral" /> Daycare Provider</label>
+              <label class="flex items-center gap-2 text-sm font-medium cursor-pointer"><input type="radio" name="signupRole" value="admin" class="accent-coral" /> Admin</label>
+            </div>
           </div>
         </div>
-        <button type="submit" class="btn-primary full-w">Create Account</button>
+        <button type="submit" class="w-full bg-orange text-white px-6 py-3 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors shadow-sm">Create Account</button>
       </form>
 
-      <div class="auth-footer">
-        <div class="db-notice">🗄️ Connected to PostgreSQL backend</div>
+      <div class="mt-6 pt-5 border-t border-border text-center">
+        <div class="inline-flex items-center gap-1.5 bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] px-3 py-1.5 rounded-full text-[0.75rem] font-bold">🗄️ Connected to PostgreSQL backend</div>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast hidden" id="toast"></div>
+  <!-- ───────────── CONTACT PAGE ───────────── -->
+  <section class="hidden flex-1 flex flex-col" id="module-contact">
+    <div class="bg-navy px-6 md:px-16 pt-6 pb-20 relative text-center">
+      <nav class="flex items-center justify-between mb-16 max-w-6xl mx-auto">
+        <div class="font-body text-xl font-bold text-white flex items-center gap-2"><span class="text-2xl">👶🏻</span> LittleSteps</div>
+        <div class="flex gap-4 md:gap-6 items-center flex-wrap justify-end">
+          <a href="#" onclick="showLanding()" class="text-white/80 font-medium text-sm transition-colors hover:text-white">Home</a>
+          <a href="#" class="text-white/80 font-medium text-sm transition-colors hover:text-white hidden sm:block">About</a>
+          <a href="#" onclick="showModule('parent')" class="text-white/80 font-medium text-sm transition-colors hover:text-white">Programs</a>
+          <a href="#" onclick="showModule('parent')" class="text-white/80 font-medium text-sm transition-colors hover:text-white hidden sm:block">Explore</a>
+          <a href="#" onclick="showContact()" class="text-white font-semibold text-sm transition-colors hover:text-white relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-white after:rounded-full">Contact</a>
+          <a href="#" class="text-white/80 font-medium text-sm transition-colors hover:text-white hidden md:block">FAQ</a>
+          <a href="#" onclick="openAuthModal('login')" class="text-white/80 font-medium text-sm transition-colors hover:text-white">Login</a>
+          <a href="#" class="bg-white/10 border border-white/20 text-white px-5 py-2 rounded-lg font-semibold hover:bg-white hover:text-navy transition-all text-sm" onclick="openAuthModal('signup')">Register</a>
+        </div>
+      </nav>
+      <div class="max-w-2xl mx-auto">
+        <h1 class="font-display text-4xl md:text-5xl text-white mb-4">Get in Touch</h1>
+        <p class="text-white/80 text-[1.1rem] leading-relaxed">Have questions? We're here to help. Send us a message and we'll respond as soon as possible.</p>
+      </div>
+    </div>
 
+    <div class="max-w-6xl mx-auto w-full px-6 md:px-16 -mt-10 relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      <div class="bg-white border border-border rounded-2xl p-7 text-center shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-lg">
+        <div class="w-12 h-12 bg-cream text-navy rounded-full flex items-center justify-center text-xl mx-auto mb-4">📍</div>
+        <h4 class="font-display text-[1.1rem] text-navy mb-2.5">Visit Us</h4>
+        <p class="text-[0.92rem] text-muted leading-relaxed">123, MG Road, Bangalore<br>Karnataka - 560001, India</p>
+      </div>
+      <div class="bg-white border border-border rounded-2xl p-7 text-center shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-lg">
+        <div class="w-12 h-12 bg-cream text-navy rounded-full flex items-center justify-center text-xl mx-auto mb-4">📞</div>
+        <h4 class="font-display text-[1.1rem] text-navy mb-2.5">Call Us</h4>
+        <p class="text-[0.92rem] text-muted leading-relaxed">+91 98765 43210<br>+91 80 4567 8901</p>
+      </div>
+      <div class="bg-white border border-border rounded-2xl p-7 text-center shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-lg">
+        <div class="w-12 h-12 bg-cream text-navy rounded-full flex items-center justify-center text-xl mx-auto mb-4">✉️</div>
+        <h4 class="font-display text-[1.1rem] text-navy mb-2.5">Email Us</h4>
+        <p class="text-[0.92rem] text-muted leading-relaxed">support@littlesteps.in<br>info@littlesteps.in</p>
+      </div>
+      <div class="bg-white border border-border rounded-2xl p-7 text-center shadow-custom transition-all hover:-translate-y-1 hover:shadow-custom-lg">
+        <div class="w-12 h-12 bg-cream text-navy rounded-full flex items-center justify-center text-xl mx-auto mb-4">🕐</div>
+        <h4 class="font-display text-[1.1rem] text-navy mb-2.5">Working Hours</h4>
+        <p class="text-[0.92rem] text-muted leading-relaxed">Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM</p>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto w-full px-6 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+      <div>
+        <h2 class="font-display text-3xl text-navy mb-2">Send Us a Message</h2>
+        <p class="text-muted text-base mb-8">Fill out the form below and our team will get back to you within 24 hours.</p>
+        <div class="bg-white border border-border rounded-2xl p-8 shadow-sm">
+          <div class="flex flex-col gap-5 mb-6">
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Full Name</label><input type="text" placeholder="Enter your full name" class="border-[1.5px] border-border rounded-lg p-3 font-body text-[0.92rem] text-ink bg-[#fafaf8] outline-none transition-colors focus:border-coral focus:bg-white" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Phone Number</label><input type="tel" placeholder="+91 98765 43210" class="border-[1.5px] border-border rounded-lg p-3 font-body text-[0.92rem] text-ink bg-[#fafaf8] outline-none transition-colors focus:border-coral focus:bg-white" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Email Address</label><input type="email" placeholder="your@email.com" class="border-[1.5px] border-border rounded-lg p-3 font-body text-[0.92rem] text-ink bg-[#fafaf8] outline-none transition-colors focus:border-coral focus:bg-white" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Subject</label><input type="text" placeholder="How can we help you?" class="border-[1.5px] border-border rounded-lg p-3 font-body text-[0.92rem] text-ink bg-[#fafaf8] outline-none transition-colors focus:border-coral focus:bg-white" /></div>
+            <div class="flex flex-col gap-1.5"><label class="text-[0.8rem] font-semibold uppercase tracking-wider text-muted">Message</label><textarea rows="5" placeholder="Tell us more about your inquiry..." class="border-[1.5px] border-border rounded-lg p-3 font-body text-[0.92rem] text-ink bg-[#fafaf8] outline-none transition-colors focus:border-coral focus:bg-white resize-y"></textarea></div>
+          </div>
+          <button class="bg-orange text-white w-full px-6 py-3.5 rounded-lg font-body text-base font-semibold hover:bg-orange-dark transition-colors" onclick="handleContactSubmit()">Send Message &#8594;</button>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-display text-3xl text-navy mb-2">Visit Our Office</h2>
+        <p class="text-muted text-base mb-8">We'd love to meet you in person. Schedule a visit to learn more about our platform and services.</p>
+        <div class="bg-white border border-border rounded-2xl p-2 relative shadow-sm mb-10 group overflow-hidden">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.9877!2d77.6032!3d12.9767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae167b3ebb5a65%3A0x2e9b0a617a1d4b0f!2sMG%20Road%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin" width="100%" height="300" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+          <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] flex items-center gap-2 border border-border text-[0.85rem] font-medium text-navy whitespace-nowrap transition-transform group-hover:-translate-y-1"><span>📍</span><span>123, MG Road, Bangalore, Karnataka - 560001</span></div>
+        </div>
+        <div>
+          <h4 class="font-display text-xl text-navy mb-4">Follow Us</h4>
+          <div class="flex gap-3 flex-wrap">
+            <a href="#" class="bg-white border border-border rounded-lg px-4 py-2 text-[0.92rem] font-semibold text-navy transition-all hover:-translate-y-0.5 hover:shadow-custom hover:border-navy">📘 Facebook</a>
+            <a href="#" class="bg-white border border-border rounded-lg px-4 py-2 text-[0.92rem] font-semibold text-navy transition-all hover:-translate-y-0.5 hover:shadow-custom hover:border-navy">📷 Instagram</a>
+            <a href="#" class="bg-white border border-border rounded-lg px-4 py-2 text-[0.92rem] font-semibold text-navy transition-all hover:-translate-y-0.5 hover:shadow-custom hover:border-navy">🐦 Twitter</a>
+            <a href="#" class="bg-white border border-border rounded-lg px-4 py-2 text-[0.92rem] font-semibold text-navy transition-all hover:-translate-y-0.5 hover:shadow-custom hover:border-navy">💼 LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────── ADMIN MODULE ───────────── -->
+  <section class="hidden flex-1 flex flex-col" id="module-admin">
+    <div class="flex items-center justify-between px-6 md:px-10 py-4 bg-navy">
+      <button class="bg-transparent border border-white/30 text-white cursor-pointer px-4 py-2 rounded-full font-body text-[0.88rem] transition-all hover:bg-white/15" onclick="showLanding()">← Back</button>
+      <div class="font-display text-xl font-bold text-white flex items-center gap-2">🌱 LittleSteps <span class="bg-purple-600 text-white px-2.5 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Admin</span></div>
+      <button class="bg-white/15 border border-white/30 text-white cursor-pointer px-4.5 py-2 rounded-lg font-body text-[0.88rem] font-semibold transition-colors hover:bg-white/20" onclick="showLanding()">Logout</button>
+    </div>
+
+    <!-- Admin Hero Stats -->
+    <div class="bg-gradient-to-br from-[#1a1a2e] to-[#2d1b69] px-6 md:px-10 py-9 text-white">
+      <h2 class="font-display text-[1.8rem] mb-1.5">⚙️ Admin Dashboard</h2>
+      <p class="text-white/65 text-[0.95rem] mb-7">Platform-wide overview and management</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="adminStatCards">
+        <div class="bg-white/10 rounded-2xl p-5 text-center">
+          <div class="font-display text-[2rem] font-extrabold leading-tight" id="stat-daycares">—</div>
+          <div class="text-[0.8rem] text-white/60 mt-1 font-medium tracking-wide uppercase">Registered Daycares</div>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-5 text-center">
+          <div class="font-display text-[2rem] font-extrabold leading-tight" id="stat-children">—</div>
+          <div class="text-[0.8rem] text-white/60 mt-1 font-medium tracking-wide uppercase">Enrolled Children</div>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-5 text-center">
+          <div class="font-display text-[2rem] font-extrabold leading-tight" id="stat-inquiries">—</div>
+          <div class="text-[0.8rem] text-white/60 mt-1 font-medium tracking-wide uppercase">Pending Inquiries</div>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-5 text-center">
+          <div class="font-display text-[2rem] font-extrabold leading-tight" id="stat-parents">—</div>
+          <div class="text-[0.8rem] text-white/60 mt-1 font-medium tracking-wide uppercase">Parent Accounts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="bg-white border-b border-border px-6 md:px-10">
+      <div class="flex overflow-x-auto no-scrollbar">
+        <button class="bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-px transition-colors whitespace-nowrap hover:text-navy active [&.active]:text-coral [&.active]:border-coral" onclick="switchAdminTab(this,'admin-tab-daycares');renderAdminDaycares()">🏠 Daycares</button>
+        <button class="bg-transparent border-none cursor-pointer font-body text-[0.92rem] font-semibold text-muted px-6 py-4.5 border-b-4 border-transparent -mb-px transition-colors whitespace-nowrap hover:text-navy [&.active]:text-coral [&.active]:border-coral" onclick="switchAdminTab(this,'admin-tab-children');renderAdminChildren()">👶 All Children</button>
+      </div>
+    </div>
+
+    <div class="p-6 md:p-10 bg-[#fafaf8] min-h-[60vh]">
+
+      <!-- ADMIN: DAYCARES TAB -->
+      <div id="admin-tab-daycares">
+        <div class="flex items-center justify-between mb-5 flex-wrap gap-4">
+          <h3 class="font-display text-[1.4rem] text-navy">Registered Daycares</h3>
+          <div class="flex gap-2.5">
+            <input type="text" id="adminDaycareSearch" placeholder="🔍 Search by name or address..."
+              class="px-3.5 py-2.5 border border-border rounded-lg font-body text-[0.875rem] w-full md:w-60 outline-none transition-colors focus:border-coral bg-white"
+              oninput="filterAdminDaycares()" />
+          </div>
+        </div>
+        <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-border">
+          <table class="w-full border-collapse min-w-[900px]">
+            <thead>
+              <tr class="bg-cream">
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Daycare</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Owner</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Type</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Capacity</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Children</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Programs</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Inquiries</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Rating</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminDaycareBody">
+              <tr><td colspan="9" class="text-center py-6 text-muted border-b border-border">⏳ Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN: CHILDREN TAB -->
+      <div id="admin-tab-children" class="hidden">
+        <div class="flex items-center justify-between mb-5 flex-wrap gap-4">
+          <h3 class="font-display text-[1.4rem] text-navy">All Enrolled Children</h3>
+          <input type="text" id="adminChildSearch" placeholder="🔍 Search by name or daycare..."
+            class="px-3.5 py-2.5 border border-border rounded-lg font-body text-[0.875rem] w-full md:w-60 outline-none transition-colors focus:border-coral bg-white"
+            oninput="filterAdminChildren()" />
+        </div>
+        <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-border">
+          <table class="w-full border-collapse min-w-[800px]">
+            <thead>
+              <tr class="bg-cream">
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Child Name</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Age</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Parent</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Contact</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Daycare</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Program</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Start Date</th>
+                <th class="text-left text-[0.78rem] font-bold uppercase tracking-wider text-muted py-2.5 px-4 border-b border-border">Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminChildrenBody">
+              <tr><td colspan="8" class="text-center py-6 text-muted border-b border-border">⏳ Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ───────────── FOOTER ───────────── -->
+  <footer class="bg-navy pt-16 pb-8 text-white mt-auto">
+    <div class="max-w-6xl mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 mb-12 border-b border-white/10 pb-12">
+      <div>
+        <div class="font-body text-[1.4rem] font-bold text-white mb-4"><span class="mr-1.5">👶🏻</span> LittleSteps</div>
+        <p class="text-white/60 text-[0.95rem] leading-relaxed max-w-sm mb-6">India's trusted daycare management and discovery platform. Making childcare safe, transparent, and accessible.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm transition-all hover:-translate-y-0.5 hover:bg-orange">f</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm transition-all hover:-translate-y-0.5 hover:bg-orange">in</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center font-bold text-sm transition-all hover:-translate-y-0.5 hover:bg-orange">𝕏</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display text-[1.1rem] text-white mb-5">Quick Links</h4>
+        <div class="flex flex-col gap-3">
+          <a href="#" onclick="showLanding()" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Home</a>
+          <a href="#" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">About Us</a>
+          <a href="#" onclick="showModule('parent')" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Programs</a>
+          <a href="#" onclick="showModule('parent')" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Explore Daycares</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display text-[1.1rem] text-white mb-5">Support</h4>
+        <div class="flex flex-col gap-3">
+          <a href="#" onclick="showContact()" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Contact Us</a>
+          <a href="#" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">FAQ</a>
+          <a href="#" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Privacy Policy</a>
+          <a href="#" class="text-white/60 text-[0.95rem] transition-colors hover:text-white">Terms of Service</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display text-[1.1rem] text-white mb-5">Contact</h4>
+        <div class="flex flex-col gap-3 text-white/60 text-[0.95rem] leading-relaxed">
+          <p>📍 123, MG Road, Bangalore,<br>Karnataka - 560001</p>
+          <p>📞 +91 98765 43210</p>
+          <p>✉️ support@littlesteps.in</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-white/40 text-[0.85rem]">© 2026 LittleSteps. All rights reserved.</div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="fixed bottom-6 right-6 bg-navy text-white px-5 py-3 rounded-xl text-[0.92rem] shadow-custom-lg flex items-center gap-2.5 z-[2000] animate-[slideUp_0.3s_ease] hidden transition-opacity duration-300 [&.hidden]:opacity-0 [&.hidden]:pointer-events-none" id="toast"></div>
 </div>
 
+<script>
+  function showContact() {
+    // Hide all sections
+    document.getElementById('landing').classList.add('hidden');
+    document.querySelectorAll('.module').forEach(m => m.classList.add('hidden'));
+    document.getElementById('module-contact').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+  function handleContactSubmit() {
+    const toast = document.getElementById('toast');
+    toast.textContent = '✅ Message sent! We\'ll get back to you within 24 hours.';
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 3500);
+  }
+</script>
 <script src="db.js"></script>
 <script src="app.js"></script>
 </body>
